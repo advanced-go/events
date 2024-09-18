@@ -22,11 +22,11 @@ func Get(r *http.Request, path string) (entries []Entry, h2 http.Header, status 
 	return nil, h2, core.StatusNotFound() //OK()get[core.Log, Entry](r.Context(), core.AddRequestId(r.Header), rsc, r.URL.Query())
 }
 
-func IngressQuery(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
+func GetIngress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
 	return nil, core.StatusOK()
 }
 
-func EgressQuery(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
+func GetEgress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
 	return nil, core.StatusOK()
 }
 
