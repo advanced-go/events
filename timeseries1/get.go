@@ -64,7 +64,7 @@ func filter[T pgxsql.Scanner[T]](entries []T, values url.Values) (result []T) {
 				if customer != "" && customer != e.CustomerId {
 					continue
 				}
-				if core.OriginMatch(e.Origin(), match) {
+				if core.OriginMatch(e.Origin, match) {
 					*p = append(*p, e)
 				}
 			}

@@ -1,12 +1,6 @@
 package timeseries2
 
-import (
-	"fmt"
-	"github.com/advanced-go/stdlib/access"
-	"github.com/advanced-go/stdlib/json"
-	"time"
-)
-
+/*
 var (
 	entryData = []Entry{
 		{Region: "us-west1", Zone: "a", Host: "www.host1.com", Duration: 100, Traffic: access.IngressTraffic, Route: "host", Timeout: 2000, RateLimit: 98.5, RateBurst: 10, ControllerCode: "RL", StartTime: time.Date(2024, 6, 10, 7, 120, 35, 0, time.UTC)},
@@ -28,3 +22,6 @@ func _ExampleEntry() {
 	//fail
 
 }
+
+
+*/

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/advanced-go/events/common"
 	"github.com/advanced-go/stdlib/core"
-	"time"
 )
 
 const (
@@ -15,34 +14,28 @@ const (
 )
 
 type Entry struct {
-	Region    string    `json:"region"`
-	Zone      string    `json:"zone"`
-	SubZone   string    `json:"sub-zone"`
-	Host      string    `json:"host"`
-	Route     string    `json:"route"`
-	CreatedTS time.Time `json:"created-ts"`
-
-	Percent int `json:"percent"` // Used for latency, traffic, status codes, counter, profile
-	Value   int `json:"value"`   // Used for latency, saturation duration or traffic
-	Minimum int `json:"minimum"` // Used for status codes to attenuate underflow, applied to the window interval
+	Origin  core.Origin `json:"origin"`
+	Percent int         `json:"percent"` // Used for latency, traffic, status codes, counter, profile
+	Value   int         `json:"value"`   // Used for latency, saturation duration or traffic
+	Minimum int         `json:"minimum"` // Used for status codes to attenuate underflow, applied to the window interval
 }
 
 func (Entry) Scan(columnNames []string, values []any) (e Entry, err error) {
 	for i, name := range columnNames {
 		switch name {
-		case common.CreatedTSName:
-			e.CreatedTS = values[i].(time.Time)
+		//case common.CreatedTSName:
+		//	e.CreatedTS = values[i].(time.Time)
 
 		case common.RegionName:
-			e.Region = values[i].(string)
+			e.Origin.Region = values[i].(string)
 		case common.ZoneName:
-			e.Zone = values[i].(string)
+			e.Origin.Zone = values[i].(string)
 		case common.SubZoneName:
-			e.SubZone = values[i].(string)
+			e.Origin.SubZone = values[i].(string)
 		case common.HostName:
-			e.Host = values[i].(string)
+			e.Origin.Host = values[i].(string)
 		case common.RouteName:
-			e.Route = values[i].(string)
+			e.Origin.Route = values[i].(string)
 
 		case percentName:
 			e.Percent = values[i].(int)
@@ -60,13 +53,13 @@ func (Entry) Scan(columnNames []string, values []any) (e Entry, err error) {
 
 func (e Entry) Values() []any {
 	return []any{
-		e.CreatedTS,
+		//e.CreatedTS,
 
-		e.Region,
-		e.Zone,
-		e.SubZone,
-		e.Host,
-		e.Route,
+		e.Origin.Region,
+		e.Origin.Zone,
+		e.Origin.SubZone,
+		e.Origin.Host,
+		e.Origin.Route,
 
 		e.Percent,
 		e.Value,
@@ -81,15 +74,4 @@ func (Entry) Rows(entries []Entry) [][]any {
 		values = append(values, e.Values())
 	}
 	return values
-}
-
-func (e Entry) Origin() core.Origin {
-	return core.Origin{
-		Region:     e.Region,
-		Zone:       e.Zone,
-		SubZone:    e.SubZone,
-		Host:       e.Host,
-		InstanceId: "",
-		Route:      e.Route,
-	}
 }

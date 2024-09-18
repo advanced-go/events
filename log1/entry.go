@@ -16,12 +16,13 @@ type Entry struct {
 	Traffic    string    `json:"traffic"`
 	CreatedTS  time.Time `json:"created-ts"`
 
-	Region     string `json:"region"`
-	Zone       string `json:"zone"`
-	SubZone    string `json:"sub-zone"`
-	Host       string `json:"host"`
-	Route      string `json:"route"`
-	InstanceId string `json:"instance-id"`
+	Origin core.Origin `json:"origin"`
+	//Region     string `json:"region"`
+	//Zone       string `json:"zone"`
+	//SubZone    string `json:"sub-zone"`
+	//Host       string `json:"host"`
+	//Route      string `json:"route"`
+	//InstanceId string `json:"instance-id"`
 
 	RequestId string `json:"request-id"`
 	RelatesTo string `json:"relates-to"`
@@ -59,15 +60,17 @@ func (Entry) Scan(columnNames []string, values []any) (e Entry, err error) {
 			e.CreatedTS = values[i].(time.Time)
 
 		case common.RegionName:
-			e.Region = values[i].(string)
+			e.Origin.Region = values[i].(string)
 		case common.ZoneName:
-			e.Zone = values[i].(string)
+			e.Origin.Zone = values[i].(string)
 		case common.SubZoneName:
-			e.SubZone = values[i].(string)
+			e.Origin.SubZone = values[i].(string)
 		case common.HostName:
-			e.Host = values[i].(string)
+			e.Origin.Host = values[i].(string)
+		case common.RouteName:
+			e.Origin.Route = values[i].(string)
 		case common.InstanceIdName:
-			e.InstanceId = values[i].(string)
+			e.Origin.InstanceId = values[i].(string)
 
 		case common.RequestIdName:
 			e.RequestId = values[i].(string)
@@ -93,8 +96,6 @@ func (Entry) Scan(columnNames []string, values []any) (e Entry, err error) {
 		case common.BytesName:
 			e.Bytes = values[i].(int64)
 
-		case common.RouteName:
-			e.Route = values[i].(string)
 		case common.TimeoutName:
 			e.Timeout = values[i].(int32)
 		case common.RateLimitName:
@@ -119,11 +120,12 @@ func (e Entry) Values() []any {
 		e.Traffic,
 		e.CreatedTS,
 
-		e.Region,
-		e.Zone,
-		e.SubZone,
-		e.Host,
-		e.InstanceId,
+		e.Origin.Region,
+		e.Origin.Zone,
+		e.Origin.SubZone,
+		e.Origin.Host,
+		e.Origin.Route,
+		e.Origin.InstanceId,
 
 		e.RequestId,
 		e.RelatesTo,
@@ -143,7 +145,6 @@ func (e Entry) Values() []any {
 		e.RateBurst,
 		e.ControllerCode,
 
-		e.Route,
 		//e.RouteTo,
 		//e.RoutePercent,
 		//e.RouteCode,
@@ -157,15 +158,4 @@ func (Entry) Rows(entries []Entry) [][]any {
 		values = append(values, e.Values())
 	}
 	return values
-}
-
-func (e Entry) Origin() core.Origin {
-	return core.Origin{
-		Region:     e.Region,
-		Zone:       e.Zone,
-		SubZone:    e.SubZone,
-		Host:       e.Host,
-		InstanceId: "",
-		Route:      e.Route,
-	}
 }
