@@ -30,6 +30,6 @@ func EgressQuery(ctx context.Context, origin core.Origin) ([]Entry, *core.Status
 	return nil, core.StatusOK()
 }
 
-func GetProfile() (*Profile, *core.Status) {
+func GetProfile(ctx context.Context) (*Profile, *core.Status) {
 	return NewProfile(), core.StatusOK()
 }
