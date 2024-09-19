@@ -3,6 +3,7 @@ package timeseries1
 import (
 	"context"
 	"errors"
+	"github.com/advanced-go/events/common"
 	"github.com/advanced-go/stdlib/core"
 	json2 "github.com/advanced-go/stdlib/json"
 	"net/http"
@@ -55,6 +56,22 @@ func QueryIngress(ctx context.Context, origin core.Origin) ([]Entry, *core.Statu
 	return nil, core.StatusOK()
 }
 
+func GetIngressPercentileThreshold(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
+}
+
+func GetIngressStatusCodeThreshold(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
+}
+
 func QueryEgress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
 	return nil, core.StatusOK()
+}
+
+func GetEgressPercentileThreshold(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
+}
+
+func GetEgressStatusCodeThreshold(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
 }
