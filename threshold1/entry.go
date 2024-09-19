@@ -28,6 +28,22 @@ type Entry struct {
 	Minimum int         `json:"minimum"` // Used for status codes to attenuate underflow, applied to the window interval
 }
 
+func InitPercentileThreshold(t *Entry) {
+	if t != nil {
+		t.Minimum = PercentileMinimum
+		t.Percent = PercentilePercent
+		t.Value = PercentileValue
+	}
+}
+
+func InitStatusCodeThreshold(t *Entry) {
+	if t != nil {
+		t.Minimum = StatusCodeMinimum
+		t.Percent = StatusCodePercent
+		t.Value = StatusCodeValue
+	}
+}
+
 func (Entry) Scan(columnNames []string, values []any) (e Entry, err error) {
 	for i, name := range columnNames {
 		switch name {
