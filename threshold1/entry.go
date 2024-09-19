@@ -8,6 +8,14 @@ import (
 )
 
 const (
+	PercentilePercent = 95
+	PercentileValue   = 3000 // milliseconds
+	PercentileMinimum = 0
+
+	StatusCodePercent = 10
+	StatusCodeValue   = 0
+	StatusCodeMinimum = 100
+
 	percentName = "percent"
 	valueName   = "value"
 	minimumName = "minimum"
