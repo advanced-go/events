@@ -3,6 +3,7 @@ package threshold1
 import (
 	"context"
 	"errors"
+	"github.com/advanced-go/events/common"
 	"github.com/advanced-go/stdlib/core"
 	"net/http"
 )
@@ -22,12 +23,12 @@ func Get(r *http.Request, path string) (entries []Entry, h2 http.Header, status 
 	return nil, h2, core.StatusNotFound() //OK()get[core.Log, Entry](r.Context(), core.AddRequestId(r.Header), rsc, r.URL.Query())
 }
 
-func GetIngress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
-	return nil, core.StatusOK()
+func GetIngressPercentile(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
 }
 
-func GetEgress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
-	return nil, core.StatusOK()
+func GetEgressStatusCode(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
 }
 
 func GetProfile(ctx context.Context) (*Profile, *core.Status) {
