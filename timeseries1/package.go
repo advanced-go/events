@@ -56,18 +56,25 @@ func Put(r *http.Request, path string, body []Entry) (http.Header, *core.Status)
 type Filter struct {
 	From        time.Time
 	To          time.Time
-	Traffic     string
 	StatusCodes string
 }
 
-func PercentileThreshold(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
+// PercentileThresholdSLO - ingress host, pre-calculated percentile thresholds
+func PercentileThresholdSLO(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
 	return common.Threshold{}, core.StatusOK()
 }
 
+// PercentileThresholdQuery - ingress host, queryable percentile thresholds
 func PercentileThresholdQuery(ctx context.Context, origin core.Origin, query Filter) (common.Threshold, *core.Status) {
 	return common.Threshold{}, core.StatusOK()
 }
 
+// StatusCodeThresholdQuery - egress route, queryable status code thresholds
+func StatusCodeThresholdQuery(ctx context.Context, origin core.Origin, query Filter) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
+}
+
+// GetProfile - retrieve traffic profile
 func GetProfile(ctx context.Context) (*Profile, *core.Status) {
 	return NewProfile(), core.StatusOK()
 }
