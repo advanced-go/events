@@ -60,7 +60,8 @@ func GetIngressPercentileThreshold(ctx context.Context, origin core.Origin) (com
 	return common.Threshold{}, core.StatusOK()
 }
 
-func GetIngressStatusCodeThreshold(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
+// GetIngressStatusCodeThreshold - ingress status code threshold
+func GetIngressStatusCodeThreshold(ctx context.Context, origin core.Origin, statusCodes string) (common.Threshold, *core.Status) {
 	return common.Threshold{}, core.StatusOK()
 }
 
@@ -72,6 +73,6 @@ func GetEgressPercentileThreshold(ctx context.Context, origin core.Origin) (comm
 	return common.Threshold{}, core.StatusOK()
 }
 
-func GetEgressStatusCodeThreshold(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
+func GetEgressStatusCodeThreshold(ctx context.Context, origin core.Origin, statusCodes string) (common.Threshold, *core.Status) {
 	return common.Threshold{}, core.StatusOK()
 }
