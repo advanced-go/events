@@ -53,25 +53,19 @@ func Put(r *http.Request, path string, body []Entry) (http.Header, *core.Status)
 	return put[core.Log](r.Context(), core.AddRequestId(r.Header), body)
 }
 
-type Filter struct {
-	From        time.Time
-	To          time.Time
-	StatusCodes string
-}
-
 // PercentileThresholdSLO - ingress host, pre-calculated percentile thresholds
-func PercentileThresholdSLO(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
-	return common.Threshold{}, core.StatusOK()
+func PercentileThresholdSLO(ctx context.Context, origin core.Origin) (Threshold, *core.Status) {
+	return Threshold{}, core.StatusOK()
 }
 
 // PercentileThresholdQuery - ingress host, queryable percentile thresholds
-func PercentileThresholdQuery(ctx context.Context, origin core.Origin, query Filter) (common.Threshold, *core.Status) {
-	return common.Threshold{}, core.StatusOK()
+func PercentileThresholdQuery(ctx context.Context, origin core.Origin, from time.Time, to time.Time) (Threshold, *core.Status) {
+	return Threshold{}, core.StatusOK()
 }
 
 // StatusCodeThresholdQuery - egress route, queryable status code thresholds
-func StatusCodeThresholdQuery(ctx context.Context, origin core.Origin, query Filter) (common.Threshold, *core.Status) {
-	return common.Threshold{}, core.StatusOK()
+func StatusCodeThresholdQuery(ctx context.Context, origin core.Origin, from time.Time, to time.Time, statusCodes string) (Threshold, *core.Status) {
+	return Threshold{}, core.StatusOK()
 }
 
 // GetProfile - retrieve traffic profile
