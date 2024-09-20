@@ -1,8 +1,9 @@
-package common
+package threshold1
 
 import (
 	"errors"
 	"fmt"
+	"github.com/advanced-go/events/common"
 	"github.com/advanced-go/stdlib/core"
 )
 
@@ -52,15 +53,15 @@ func (Threshold) Scan(columnNames []string, values []any) (e Threshold, err erro
 		//case common.CreatedTSName:
 		//	e.CreatedTS = values[i].(time.Time)
 
-		case RegionName:
+		case common.RegionName:
 			e.Origin.Region = values[i].(string)
-		case ZoneName:
+		case common.ZoneName:
 			e.Origin.Zone = values[i].(string)
-		case SubZoneName:
+		case common.SubZoneName:
 			e.Origin.SubZone = values[i].(string)
-		case HostName:
+		case common.HostName:
 			e.Origin.Host = values[i].(string)
-		case RouteName:
+		case common.RouteName:
 			e.Origin.Route = values[i].(string)
 
 		case percentName:
