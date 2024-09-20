@@ -51,10 +51,10 @@ func Put(r *http.Request, path string, body []Entry) (http.Header, *core.Status)
 	return put[core.Log](r.Context(), core.AddRequestId(r.Header), body)
 }
 
-func QueryIngress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
+func IngressQuery(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
 	return nil, core.StatusOK()
 }
 
-func QueryEgress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
+func EgressQuery(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
 	return nil, core.StatusOK()
 }

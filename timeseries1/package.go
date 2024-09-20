@@ -8,6 +8,7 @@ import (
 	json2 "github.com/advanced-go/stdlib/json"
 	"net/http"
 	"strings"
+	"time"
 )
 
 const (
@@ -52,27 +53,53 @@ func Put(r *http.Request, path string, body []Entry) (http.Header, *core.Status)
 	return put[core.Log](r.Context(), core.AddRequestId(r.Header), body)
 }
 
+type Filter struct {
+	From        time.Time
+	To          time.Time
+	Traffic     string
+	StatusCodes string
+}
+
+func PercentileThreshold(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
+}
+
+func PercentileThresholdQuery(ctx context.Context, origin core.Origin, query Filter) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
+}
+
+func GetProfile(ctx context.Context) (*Profile, *core.Status) {
+	return NewProfile(), core.StatusOK()
+}
+
+/*
+func IngressPercentileThreshold(ctx context.Context, origin core.Origin, query Filter) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
+}
+
+func EgressStatusCodeThreshold(ctx context.Context, origin core.Origin, query Filter) (common.Threshold, *core.Status) {
+	return common.Threshold{}, core.StatusOK()
+}
+
+/*
 func QueryIngress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
 	return nil, core.StatusOK()
 }
 
-func GetIngressPercentileThreshold(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
-	return common.Threshold{}, core.StatusOK()
-}
 
+*/
+
+/*
 // GetIngressStatusCodeThreshold - ingress status code threshold
-func GetIngressStatusCodeThreshold(ctx context.Context, origin core.Origin, statusCodes string) (common.Threshold, *core.Status) {
-	return common.Threshold{}, core.StatusOK()
-}
 
-func QueryEgress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
-	return nil, core.StatusOK()
-}
+	func GetIngressStatusCodeThreshold(ctx context.Context, origin core.Origin, statusCodes string) (common.Threshold, *core.Status) {
+		return common.Threshold{}, core.StatusOK()
+	}
 
+	func QueryEgress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
+		return nil, core.StatusOK()
+	}
+*/
 func GetEgressPercentileThreshold(ctx context.Context, origin core.Origin) (common.Threshold, *core.Status) {
-	return common.Threshold{}, core.StatusOK()
-}
-
-func GetEgressStatusCodeThreshold(ctx context.Context, origin core.Origin, statusCodes string) (common.Threshold, *core.Status) {
 	return common.Threshold{}, core.StatusOK()
 }
