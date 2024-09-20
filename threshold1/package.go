@@ -16,7 +16,7 @@ const (
 )
 
 // Get - threshold1 GET
-func Get(r *http.Request, path string) (entries []Entry, h2 http.Header, status *core.Status) {
+func Get(r *http.Request, path string) (entries []common.Threshold, h2 http.Header, status *core.Status) {
 	if r == nil {
 		return entries, h2, core.NewStatusError(core.StatusInvalidArgument, errors.New("error: http.Request is"))
 	}

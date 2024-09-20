@@ -2,6 +2,7 @@ package threshold1
 
 import (
 	"context"
+	"github.com/advanced-go/events/common"
 	"github.com/advanced-go/events/module"
 	"github.com/advanced-go/events/testrsc"
 	"github.com/advanced-go/postgresql/pgxsql"
@@ -50,10 +51,10 @@ func get[E core.ErrorHandler, T pgxsql.Scanner[T]](ctx context.Context, h http.H
 func filter[T pgxsql.Scanner[T]](entries []T, values url.Values) (result []T) {
 	match := core.NewOrigin(values)
 	switch p := any(&result).(type) {
-	case *[]Entry:
+	case *[]common.Threshold:
 		if p != nil {
 		}
-		if entries2, ok := any(entries).([]Entry); ok {
+		if entries2, ok := any(entries).([]common.Threshold); ok {
 			for _, e := range entries2 {
 				if core.OriginMatch(e.Origin, match) {
 					*p = append(*p, e)

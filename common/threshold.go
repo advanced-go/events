@@ -20,11 +20,14 @@ const (
 	minimumName = "minimum"
 )
 
+// Threshold - struct for thresholds
+// Templates are of the form: 4xx, 5xx
 type Threshold struct {
-	Origin  core.Origin `json:"origin"`
-	Percent int         `json:"percent"` // Used for latency, traffic, status codes, counter, profile
-	Value   int         `json:"value"`   // Used for latency, saturation duration or traffic
-	Minimum int         `json:"minimum"` // Used for status codes to attenuate underflow, applied to the window interval
+	Origin      core.Origin `json:"origin"`
+	StatusCodes string      `json:"codes"`   // String of comma seperated status codes, and supporting templates
+	Percent     int         `json:"percent"` // Used for latency, traffic, status codes, counter, profile
+	Value       int         `json:"value"`   // Used for latency, saturation duration or traffic
+	Minimum     int         `json:"minimum"` // Used for status codes to attenuate underflow, applied to the window interval
 }
 
 func InitPercentileThreshold(t *Threshold) {
