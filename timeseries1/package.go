@@ -18,6 +18,8 @@ const (
 	IngressResource = "ingress"
 )
 
+type TimeUTC time.Time
+
 // Get - timeseries1 GET
 func Get(r *http.Request, path string) (entries []Entry, h2 http.Header, status *core.Status) {
 	if r == nil {
@@ -59,12 +61,12 @@ func PercentileThresholdSLO(ctx context.Context, origin core.Origin) (Threshold,
 }
 
 // PercentileThresholdQuery - ingress host, queryable percentile thresholds
-func PercentileThresholdQuery(ctx context.Context, origin core.Origin, fromUTC, toUTC time.Time) (Threshold, *core.Status) {
+func PercentileThresholdQuery(ctx context.Context, origin core.Origin, from, to TimeUTC) (Threshold, *core.Status) {
 	return Threshold{}, core.StatusOK()
 }
 
 // StatusCodeThresholdQuery - egress route, queryable status code thresholds
-func StatusCodeThresholdQuery(ctx context.Context, origin core.Origin, fromUTC, toUTC time.Time, statusCodes string) (Threshold, *core.Status) {
+func StatusCodeThresholdQuery(ctx context.Context, origin core.Origin, from, to TimeUTC, statusCodes string) (Threshold, *core.Status) {
 	return Threshold{}, core.StatusOK()
 }
 
