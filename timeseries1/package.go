@@ -59,12 +59,12 @@ func PercentileThresholdSLO(ctx context.Context, origin core.Origin) (Threshold,
 }
 
 // PercentileThresholdQuery - ingress host, queryable percentile thresholds
-func PercentileThresholdQuery(ctx context.Context, origin core.Origin, from time.Time, to time.Time) (Threshold, *core.Status) {
+func PercentileThresholdQuery(ctx context.Context, origin core.Origin, from, to time.Time) (Threshold, *core.Status) {
 	return Threshold{}, core.StatusOK()
 }
 
 // StatusCodeThresholdQuery - egress route, queryable status code thresholds
-func StatusCodeThresholdQuery(ctx context.Context, origin core.Origin, from time.Time, to time.Time, statusCodes string) (Threshold, *core.Status) {
+func StatusCodeThresholdQuery(ctx context.Context, origin core.Origin, from, to time.Time, statusCodes string) (Threshold, *core.Status) {
 	return Threshold{}, core.StatusOK()
 }
 
