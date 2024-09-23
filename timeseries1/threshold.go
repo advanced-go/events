@@ -31,6 +31,47 @@ type Threshold struct {
 	Minimum int `json:"minimum"` // Used for status codes to attenuate underflow, applied to the window interval
 }
 
+type PercentileThreshold struct {
+	T Threshold
+}
+
+func NewPercentileThreshold() *PercentileThreshold {
+	p := new(PercentileThreshold)
+	p.T.Minimum = PercentileMinimum
+	p.T.Percent = PercentilePercent
+	p.T.Value = PercentileValue
+	return p
+}
+
+func (p *PercentileThreshold) Latency() int {
+	return p.T.Value
+}
+
+func (p *PercentileThreshold) Percent() int {
+	return p.T.Percent
+}
+
+type StatusCodeThreshold struct {
+	T Threshold
+}
+
+func NewStatusCodeThreshold() *StatusCodeThreshold {
+	p := new(StatusCodeThreshold)
+	p.T.Minimum = StatusCodeMinimum
+	p.T.Percent = StatusCodePercent
+	p.T.Value = StatusCodeValue
+	return p
+}
+
+func (s *StatusCodeThreshold) Percent() int {
+	return s.T.Percent
+}
+
+func (s *StatusCodeThreshold) Minimum() int {
+	return s.T.Minimum
+}
+
+/*
 func InitPercentileThreshold(t *Threshold) {
 	if t != nil {
 		t.Minimum = PercentileMinimum
@@ -46,6 +87,9 @@ func InitStatusCodeThreshold(t *Threshold) {
 		t.Value = StatusCodeValue
 	}
 }
+
+
+*/
 
 func (Threshold) Scan(columnNames []string, values []any) (e Threshold, err error) {
 	for i, name := range columnNames {
