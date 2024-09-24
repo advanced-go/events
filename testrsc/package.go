@@ -4,9 +4,9 @@ const (
 	log1BasePath = "file:///f:/files/log1"
 
 	LOG1EgressEntry      = log1BasePath + "/egress-entry.json"
-	LOG1EgressEntryTest  = log1BasePath + "/egress-percentile-threshold-test.json"
+	LOG1EgressEntryTest  = log1BasePath + "/egress-entry-test.json"
 	LOG1IngressEntry     = log1BasePath + "/ingress-entry.json"
-	LOG1IngressEntryTest = log1BasePath + "/ingress-percentile-threshold-test.json"
+	LOG1IngressEntryTest = log1BasePath + "/ingress-entry-test.json"
 
 	LOG1GetReq  = log1BasePath + "/get-req.txt"
 	LOG1GetResp = log1BasePath + "/get-resp.txt"

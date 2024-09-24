@@ -3,8 +3,8 @@ package http
 import (
 	"errors"
 	"fmt"
+	"github.com/advanced-go/events/log1"
 	"github.com/advanced-go/events/module"
-	"github.com/advanced-go/events/threshold1"
 	"github.com/advanced-go/events/timeseries1"
 	"github.com/advanced-go/stdlib/core"
 	"github.com/advanced-go/stdlib/httpx"
@@ -37,9 +37,9 @@ func Exchange(r *http.Request) (*http.Response, *core.Status) {
 		resp, status1 := timeseriesExchange[core.Log](r, p)
 		resp.Header.Add(core.XRoute, timeseries1.Route)
 		return resp, status1
-	case threshold:
-		resp, status1 := thresholdExchange[core.Log](r, p)
-		resp.Header.Add(core.XRoute, threshold1.Route)
+	case log:
+		resp, status1 := logExchange[core.Log](r, p)
+		resp.Header.Add(core.XRoute, log1.Route)
 		return resp, status1
 	case core.VersionPath:
 		resp, status1 := httpx.NewVersionResponse(module.Version), core.StatusOK()

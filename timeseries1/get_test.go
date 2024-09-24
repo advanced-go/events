@@ -8,6 +8,7 @@ import (
 
 func ExampleGetPercentile_Test() {
 	values := make(url.Values)
+	//ctx := core.NewExchangeOverrideContext(nil, core.NewExchangeOverride("", testrsc.TS1PercentileThresholdTest, ""))
 
 	values.Add(core.RegionKey, "*")
 	entries, status := get[core.Output, PercentileThreshold](nil, nil, PercentileResource, values)
@@ -26,6 +27,7 @@ func ExampleGetPercentile_Test() {
 
 func ExampleGetStatusCode_Test() {
 	values := make(url.Values)
+	//ctx := core.NewExchangeOverrideContext(nil, core.NewExchangeOverride("", testrsc.TS1StatusCodeThresholdTest, ""))
 
 	values.Add(core.RegionKey, "*")
 	entries, status := get[core.Output, PercentileThreshold](nil, nil, StatusCodeResource, values)
