@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/advanced-go/stdlib/core"
+	"github.com/advanced-go/stdlib/httpx"
 	json2 "github.com/advanced-go/stdlib/json"
 	"net/http"
 	"strings"
@@ -11,47 +12,48 @@ import (
 )
 
 const (
-	PkgPath         = "github/advanced-go/events/timeseries1"
-	Route           = "timeseries"
-	EgressResource  = "egress"
-	IngressResource = "ingress"
+	PkgPath            = "github/advanced-go/events/timeseries1"
+	Route              = "timeseries"
+	PercentileResource = "percentile"
+	StatusCodeResource = "status-code"
 )
 
 type TimeUTC time.Time
 
 // Get - timeseries1 GET
-func Get(r *http.Request, path string) (entries []Entry, h2 http.Header, status *core.Status) {
+func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header, *core.Status) {
+	var e E
 	if r == nil {
-		return entries, h2, core.NewStatusError(core.StatusInvalidArgument, errors.New("error: http.Request is"))
+		return nil, nil, core.NewStatusError(core.StatusInvalidArgument, errors.New("error: http.Request is"))
 	}
-	rsc := ""
-	if strings.Contains(path, EgressResource) {
-		rsc = EgressResource
-	} else {
-		if strings.Contains(path, IngressResource) {
-			rsc = IngressResource
-		} else {
-			return nil, h2, core.NewStatusError(http.StatusBadRequest, errors.New("error: resource is not ingress or egress"))
-		}
-	}
-	return get[core.Log, Entry](r.Context(), core.AddRequestId(r.Header), rsc, r.URL.Query())
-}
-
-// Put - timeseries1 PUT, with optional content override
-func Put(r *http.Request, path string, body []Entry) (http.Header, *core.Status) {
-	if r == nil {
-		return nil, core.NewStatusError(core.StatusInvalidArgument, errors.New("error: request is nil"))
-	}
-	if body == nil {
-		content, status := json2.New[[]Entry](r.Body, r.Header)
+	h2 := httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeText)
+	if strings.Contains(path, PercentileResource) {
+		t, status := get[core.Log, PercentileThreshold](r.Context(), core.AddRequestId(r.Header), PercentileResource, r.URL.Query())
 		if !status.OK() {
-			var e core.Log
-			e.Handle(status.WithRequestId(r.Header))
-			return nil, status
+			return nil, h2, status
 		}
-		body = content
+		buf, status1 := json2.Marshal(t)
+		if !status1.OK() {
+			e.Handle(status1)
+			return nil, h2, status1
+		}
+		return buf, httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeJson), status1
 	}
-	return put[core.Log](r.Context(), core.AddRequestId(r.Header), body)
+	if strings.Contains(path, StatusCodeResource) {
+		t, status := get[core.Log, StatusCodeThreshold](r.Context(), core.AddRequestId(r.Header), StatusCodeResource, r.URL.Query())
+		if !status.OK() {
+			return nil, h2, status
+		}
+		buf, status1 := json2.Marshal(t)
+		if !status1.OK() {
+			e.Handle(status1)
+			return nil, h2, status1
+		}
+		return buf, httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeJson), status1
+	}
+	status := core.NewStatusError(http.StatusBadRequest, errors.New("error: resource is not ingress or egress"))
+	e.Handle(status)
+	return nil, nil, status
 }
 
 // PercentileThresholdSLO - ingress host, pre-calculated percentile thresholds
@@ -73,18 +75,3 @@ func StatusCodeThresholdQuery(ctx context.Context, origin core.Origin, from, to 
 func GetProfile(ctx context.Context) (*Profile, *core.Status) {
 	return NewProfile(), core.StatusOK()
 }
-
-/*
-func IngressPercentileThreshold(ctx context.Context, origin core.Origin, query Filter) (common.Threshold, *core.Status) {
-	return common.Threshold{}, core.StatusOK()
-}
-
-func EgressStatusCodeThreshold(ctx context.Context, origin core.Origin, query Filter) (common.Threshold, *core.Status) {
-	return common.Threshold{}, core.StatusOK()
-}
-
-func QueryIngress(ctx context.Context, origin core.Origin) ([]Entry, *core.Status) {
-	return nil, core.StatusOK()
-}
-
-*/

@@ -9,6 +9,7 @@
     "zone":"oregon",
     "sub-zone":"dc1",
     "host":"www.test-host.com",
+    "route":"google-search",
     "instance-id":"123456",
     "request-id":"req-id",
     "relates-to":"relate-to",
@@ -24,8 +25,8 @@
     "timeout":500,
     "rate-limit":100,
     "rate-burst":10,
-    "cc": "RL",
-    "route":"google-search"
+    "cc": "RL"
+
    },
   {
     "customer-id": "C002",
@@ -37,6 +38,7 @@
     "zone":"oregon",
     "sub-zone":"dc2",
     "host":"www.search.yahoo.com",
+    "route":"search",
     "instance-id":"123456",
     "request-id":"request-id",
     "relates-to":"language-query",
@@ -52,7 +54,6 @@
     "rate-limit":100,
     "rate-burst":10,
     "cc": "TO",
-    "bytes":12345,
-    "route":"search"
-   }
+    "bytes":12345
+  }
 ]

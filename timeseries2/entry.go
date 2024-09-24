@@ -17,12 +17,6 @@ type Entry struct {
 	CreatedTS  time.Time `json:"created-ts"`
 
 	Origin core.Origin `json:"origin"`
-	//Region     string `json:"region"`
-	//Zone       string `json:"zone"`
-	//SubZone    string `json:"sub-zone"`
-	//Host       string `json:"host"`
-	//Route      string `json:"route"`
-	//InstanceId string `json:"instance-id"`
 
 	RequestId string `json:"request-id"`
 	RelatesTo string `json:"relates-to"`
