@@ -2,8 +2,8 @@ package test
 
 import (
 	http2 "github.com/advanced-go/events/http"
+	"github.com/advanced-go/events/log1"
 	"github.com/advanced-go/events/testrsc"
-	"github.com/advanced-go/events/timeseries1"
 	"github.com/advanced-go/stdlib/core"
 	"github.com/advanced-go/stdlib/core/coretest"
 	httpt "github.com/advanced-go/stdlib/httpx/httpxtest"
@@ -34,10 +34,10 @@ func TestExchange1(t *testing.T) {
 				t.Errorf("Exchange() got status code : %v, want status code : %v", resp.StatusCode, tt.resp.StatusCode)
 				success = false
 			}
-			var gotT []timeseries1.Entry
-			var wantT []timeseries1.Entry
+			var gotT []log1.Entry
+			var wantT []log1.Entry
 			if success {
-				gotT, wantT, success = httpt.Deserialize[coretest.Output, []timeseries1.Entry](resp.Body, tt.resp.Body, t)
+				gotT, wantT, success = httpt.Deserialize[coretest.Output, []log1.Entry](resp.Body, tt.resp.Body, t)
 			}
 			if success {
 				if !reflect.DeepEqual(gotT, wantT) {

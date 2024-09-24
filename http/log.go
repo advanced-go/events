@@ -3,15 +3,16 @@ package http
 import (
 	"errors"
 	"fmt"
+	"github.com/advanced-go/events/log1"
+	"github.com/advanced-go/events/log2"
 	"github.com/advanced-go/events/module"
-	"github.com/advanced-go/events/threshold1"
 	"github.com/advanced-go/stdlib/core"
 	"github.com/advanced-go/stdlib/httpx"
 	"github.com/advanced-go/stdlib/uri"
 	"net/http"
 )
 
-func thresholdExchange[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (*http.Response, *core.Status) {
+func logExchange[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (*http.Response, *core.Status) {
 	h2 := make(http.Header)
 	h2.Add(httpx.ContentType, httpx.ContentTypeText)
 
@@ -25,24 +26,24 @@ func thresholdExchange[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (*ht
 
 	switch r.Method {
 	case http.MethodGet:
-		return thresholdGet[E](r, p)
+		return logGet[E](r, p)
 	case http.MethodPut:
-		return thresholdPut[E](r, p)
+		return logPut[E](r, p)
 	default:
 		status := core.NewStatusError(http.StatusBadRequest, errors.New(fmt.Sprintf("error invalid method: [%v]", r.Method)))
 		return httpx.NewResponse[E](status.HttpCode(), h2, status.Err)
 	}
 }
 
-func thresholdGet[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (resp *http.Response, status *core.Status) {
+func logGet[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (resp *http.Response, status *core.Status) {
 	var entries any
 	var h2 http.Header
 
 	switch p.Version {
 	case ver1, "":
-		entries, h2, status = threshold1.Get(r, p.Path)
+		entries, h2, status = log1.Get(r, p.Path)
 	case ver2:
-		//entries, h2, status = timeseries2.Get(r, p.Path)
+		entries, h2, status = log2.Get(r, p.Path)
 	default:
 		status = core.NewStatusError(http.StatusBadRequest, errors.New(fmt.Sprintf("invalid version: [%v]", r.Header.Get(core.XVersion))))
 	}
@@ -54,14 +55,14 @@ func thresholdGet[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (resp *ht
 
 }
 
-func thresholdPut[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (resp *http.Response, status *core.Status) {
+func logPut[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (resp *http.Response, status *core.Status) {
 	var h2 http.Header
 
 	switch p.Version {
 	case ver1, "":
-		//h2, status = threshold1.Put(r, p.Path, nil)
+		h2, status = log1.Put(r, p.Path, nil)
 	case ver2:
-		//h2, status = timeseries2.Put(r, p.Path, nil)
+		h2, status = log2.Put(r, p.Path, nil)
 	default:
 		status = core.NewStatusError(http.StatusBadRequest, errors.New(fmt.Sprintf("invalid version: [%v]", r.Header.Get(core.XVersion))))
 	}

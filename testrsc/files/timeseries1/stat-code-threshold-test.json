@@ -1,0 +1,26 @@
+[
+  {
+    "created-ts": "2024-06-03T18:29:16.0450098Z",
+    "origin": {
+      "region": "us-west",
+      "zone": "oregon",
+      "sub-zone": "dc1",
+      "host": "www.test-host.com",
+      "route": "google-search"
+     },
+    "percentage":10,
+    "count":100
+  },
+  {
+    "created-ts": "2024-06-03T18:29:16.0450098Z",
+    "origin": {
+      "region": "us-west",
+      "zone": "oregon",
+      "sub-zone": "dc2",
+      "host": "www.search.yahoo.com",
+      "route": "search"
+     },
+    "percentage":5,
+    "count":200
+  }
+]
