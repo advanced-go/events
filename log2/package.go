@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	PkgPath         = "github/advanced-go/events/log1"
+	PkgPath         = "github/advanced-go/events/log2"
 	Route           = "log-events"
 	EgressResource  = "egress"
 	IngressResource = "ingress"

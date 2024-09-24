@@ -37,6 +37,10 @@ type Entry struct {
 	RateLimit      float64 `json:"rate-limit"`
 	RateBurst      int32   `json:"rate-burst"`
 	ControllerCode string  `json:"cc"`
+
+	RouteTo      string `json:"route-to"`
+	RoutePercent int    `json:"route-percent"`
+	RouteCode    string `json:"rc"`
 }
 
 func (Entry) Scan(columnNames []string, values []any) (e Entry, err error) {

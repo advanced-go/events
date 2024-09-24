@@ -21,99 +21,79 @@ const (
 	minimumName = "minimum"
 )
 
-// Threshold - struct for thresholds
+// threshold - struct for thresholds
 // Templates are of the form: 4xx, 5xx
-type Threshold struct {
-	Origin core.Origin `json:"origin"`
+type threshold struct {
+	origin core.Origin `json:"origin"`
 	//StatusCodes string      `json:"codes"`   // String of comma seperated status codes, and supporting templates
-	Percent int `json:"percent"` // Used for latency, traffic, status codes, counter, profile
-	Value   int `json:"value"`   // Used for latency, saturation duration or traffic
-	Minimum int `json:"minimum"` // Used for status codes to attenuate underflow, applied to the window interval
+	percent int `json:"percent"` // Used for latency, traffic, status codes, counter, profile
+	value   int `json:"value"`   // Used for latency, saturation duration or traffic
+	minimum int `json:"minimum"` // Used for status codes to attenuate underflow, applied to the window interval
 }
 
 type PercentileThreshold struct {
-	T Threshold
+	t threshold
 }
 
-func NewPercentileThreshold() *PercentileThreshold {
-	p := new(PercentileThreshold)
-	p.T.Minimum = PercentileMinimum
-	p.T.Percent = PercentilePercent
-	p.T.Value = PercentileValue
+func NewPercentileThreshold() PercentileThreshold {
+	p := PercentileThreshold{}
+	p.t.minimum = PercentileMinimum
+	p.t.percent = PercentilePercent
+	p.t.value = PercentileValue
 	return p
 }
 
-func (p *PercentileThreshold) Latency() int {
-	return p.T.Value
+func (p PercentileThreshold) Latency() int {
+	return p.t.value
 }
 
-func (p *PercentileThreshold) Percent() int {
-	return p.T.Percent
+func (p PercentileThreshold) Percent() int {
+	return p.t.percent
 }
 
 type StatusCodeThreshold struct {
-	T Threshold
+	t threshold
 }
 
-func NewStatusCodeThreshold() *StatusCodeThreshold {
-	p := new(StatusCodeThreshold)
-	p.T.Minimum = StatusCodeMinimum
-	p.T.Percent = StatusCodePercent
-	p.T.Value = StatusCodeValue
+func NewStatusCodeThreshold() StatusCodeThreshold {
+	p := StatusCodeThreshold{}
+	p.t.minimum = StatusCodeMinimum
+	p.t.percent = StatusCodePercent
+	p.t.value = StatusCodeValue
 	return p
 }
 
-func (s *StatusCodeThreshold) Percent() int {
-	return s.T.Percent
+func (s StatusCodeThreshold) Percent() int {
+	return s.t.percent
 }
 
-func (s *StatusCodeThreshold) Minimum() int {
-	return s.T.Minimum
+func (s StatusCodeThreshold) Minimum() int {
+	return s.t.minimum
 }
 
-/*
-func InitPercentileThreshold(t *Threshold) {
-	if t != nil {
-		t.Minimum = PercentileMinimum
-		t.Percent = PercentilePercent
-		t.Value = PercentileValue
-	}
-}
-
-func InitStatusCodeThreshold(t *Threshold) {
-	if t != nil {
-		t.Minimum = StatusCodeMinimum
-		t.Percent = StatusCodePercent
-		t.Value = StatusCodeValue
-	}
-}
-
-
-*/
-
-func (Threshold) Scan(columnNames []string, values []any) (e Threshold, err error) {
+func (threshold) Scan(columnNames []string, values []any) (e threshold, err error) {
 	for i, name := range columnNames {
 		switch name {
 		//case common.CreatedTSName:
 		//	e.CreatedTS = values[i].(time.Time)
 
 		case common.RegionName:
-			e.Origin.Region = values[i].(string)
+			e.origin.Region = values[i].(string)
 		case common.ZoneName:
-			e.Origin.Zone = values[i].(string)
+			e.origin.Zone = values[i].(string)
 		case common.SubZoneName:
-			e.Origin.SubZone = values[i].(string)
+			e.origin.SubZone = values[i].(string)
 		case common.HostName:
-			e.Origin.Host = values[i].(string)
+			e.origin.Host = values[i].(string)
 		case common.RouteName:
-			e.Origin.Route = values[i].(string)
+			e.origin.Route = values[i].(string)
 
 		case percentName:
-			e.Percent = values[i].(int)
+			e.percent = values[i].(int)
 		case valueName:
-			e.Value = values[i].(int)
+			e.value = values[i].(int)
 		case minimumName:
-			e.Minimum = values[i].(int)
+			e.minimum = values[i].(int)
 		default:
 			err = errors.New(fmt.Sprintf("invalid field name: %v", name))
 			return
@@ -122,23 +102,23 @@ func (Threshold) Scan(columnNames []string, values []any) (e Threshold, err erro
 	return
 }
 
-func (e Threshold) Values() []any {
+func (e threshold) Values() []any {
 	return []any{
 		//e.CreatedTS,
 
-		e.Origin.Region,
-		e.Origin.Zone,
-		e.Origin.SubZone,
-		e.Origin.Host,
-		e.Origin.Route,
+		e.origin.Region,
+		e.origin.Zone,
+		e.origin.SubZone,
+		e.origin.Host,
+		e.origin.Route,
 
-		e.Percent,
-		e.Value,
-		e.Minimum,
+		e.percent,
+		e.value,
+		e.minimum,
 	}
 }
 
-func (Threshold) Rows(entries []Threshold) [][]any {
+func (threshold) Rows(entries []threshold) [][]any {
 	var values [][]any
 
 	for _, e := range entries {
