@@ -1,15 +1,25 @@
 package testrsc
 
 const (
+	commonBasePath = "file:///f:/files/common"
+
+	NotFoundResp            = commonBasePath + "/not-found-resp.txt"
+	OKResp                  = commonBasePath + "/ok-resp.txt"
+	GatewayTimeoutResp      = commonBasePath + "/gateway-timeout-resp.txt"
+	InternalServerErrorResp = commonBasePath + "/interanal-server-error-resp.txt"
+)
+const (
 	log1BasePath = "file:///f:/files/log1"
 
 	LOG1IngressEntry      = log1BasePath + "/ingress-entry.json"
 	LOG1IngressGetAllReq  = log1BasePath + "/ingress-get-all-req.txt"
 	LOG1IngressGetAllResp = log1BasePath + "/ingress-get-all-resp.txt"
+	LOG1IngressPutReq     = log1BasePath + "/ingress-put-req.txt"
 
-	LOG1EgressEntry      = log1BasePath + "/egress-entry.json"
-	LOG1EgressGetAllReq  = log1BasePath + "/egress-get-all-req.txt"
-	LOG1EgressGetAllResp = log1BasePath + "/egress-get-all-resp.txt"
+	LOG1EgressEntry          = log1BasePath + "/egress-entry.json"
+	LOG1EgressGetAllReq      = log1BasePath + "/egress-get-all-req.txt"
+	LOG1EgressGetAllResp     = log1BasePath + "/egress-get-all-resp.txt"
+	LOG1EgressGetNotFoundReq = log1BasePath + "/egress-get-not-found-req.txt"
 
 	log2BasePath = "file:///f:/files/log2"
 
