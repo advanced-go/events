@@ -3,13 +3,16 @@ package testrsc
 const (
 	log1BasePath = "file:///f:/files/log1"
 
-	LOG1EgressEntry  = log1BasePath + "/egress-entry.json"
-	LOG1IngressEntry = log1BasePath + "/ingress-entry.json"
+	LOG1IngressEntry      = log1BasePath + "/ingress-entry.json"
+	LOG1IngressGetAllReq  = log1BasePath + "/ingress-get-all-req.txt"
+	LOG1IngressGetAllResp = log1BasePath + "/ingress-get-all-resp.txt"
 
-	LOG1GetReq  = log1BasePath + "/egress-get-all-req.txt"
-	LOG1GetResp = log1BasePath + "/egress-get-all-resp.txt"
+	LOG1EgressEntry      = log1BasePath + "/egress-entry.json"
+	LOG1EgressGetAllReq  = log1BasePath + "/egress-get-all-req.txt"
+	LOG1EgressGetAllResp = log1BasePath + "/egress-get-all-resp.txt"
 
-	log2BasePath          = "file:///f:/files/log2"
+	log2BasePath = "file:///f:/files/log2"
+
 	LOG2IngressEntry      = log2BasePath + "/ingress-entry.json"
 	LOG2IngressGetAllReq  = log2BasePath + "/ingress-get-all-req.txt"
 	LOG2IngressGetAllResp = log2BasePath + "/ingress-get-all-resp.txt"

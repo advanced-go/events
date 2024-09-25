@@ -6,18 +6,18 @@ Connection: Closed
 
 [
   {
-    "customer-id": "D001",
+    "customer-id": "C010",
     "start-time":"2024-06-03T18:29:16.0447249Z",
     "duration":100,
-    "traffic":"egress",
+    "traffic":"ingress",
     "created-ts":"2024-06-03T18:29:16.0450098Z",
     "origin": {
-      "region":"us-west",
-      "zone":"oregon",
-      "sub-zone":"dc1",
-      "host":"www.test-host.com",
-      "route":"google-search",
-      "instance-id":"123456"
+      "region": "us-west",
+      "zone": "oregon",
+      "sub-zone": "dc1",
+      "host": "www.test-host.com",
+      "route":"host",
+      "instance-id": "123456"
     },
     "request-id":"req-id",
     "relates-to":"relate-to",
@@ -39,15 +39,15 @@ Connection: Closed
     "customer-id": "D002",
     "start-time":"2024-06-03T18:29:16.0450098Z",
     "duration":500,
-    "traffic":"egress",
+    "traffic":"ingress",
     "created-ts":"2024-06-03T18:29:16.0450098Z",
     "origin": {
       "region": "us-west",
       "zone": "oregon",
       "sub-zone": "dc2",
       "host": "www.search.yahoo.com",
-      "instance-id": "123456",
-      "route":"search"
+      "route":"host",
+      "instance-id": "123456"
     },
     "request-id":"request-id",
     "relates-to":"language-query",
@@ -59,10 +59,10 @@ Connection: Closed
     "path":"/search",
     "status-code":200,
     "encoding":"gzip",
-    "bytes":12345,
     "timeout":500,
     "rate-limit":100,
     "rate-burst":10,
-    "cc": "TO"
+    "cc": "TO",
+    "bytes":12345
   }
 ]
