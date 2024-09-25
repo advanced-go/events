@@ -10,6 +10,10 @@ const (
 
 	LOG1GetReq  = log1BasePath + "/get-req.txt"
 	LOG1GetResp = log1BasePath + "/get-resp.txt"
+
+	log2BasePath         = "file:///f:/files/log2"
+	LOG2EgressEntryTest  = log2BasePath + "/egress-entry-test.json"
+	LOG2IngressEntryTest = log2BasePath + "/ingress-entry-test.json"
 )
 
 const (

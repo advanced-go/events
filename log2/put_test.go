@@ -8,7 +8,7 @@ import (
 )
 
 func ExamplePut() {
-	entries, _ := json.New[[]Entry](testrsc.LOG1EgressEntry, nil)
+	entries, _ := json.New[[]Entry](testrsc.LOG2EgressEntryTest, nil)
 
 	ex := core.NewExchangeOverride("", "", json.StatusTimeoutUri)
 	ctx := core.NewExchangeOverrideContext(nil, ex)
