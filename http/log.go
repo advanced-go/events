@@ -41,9 +41,9 @@ func logGet[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (resp *http.Res
 
 	switch p.Version {
 	case ver1, "":
-		entries, h2, status = log1.Get(r, p.Path)
+		entries, h2, status = log1.Get[core.Log](r, p.Path)
 	case ver2:
-		entries, h2, status = log2.Get(r, p.Path)
+		entries, h2, status = log2.Get[core.Log](r, p.Path)
 	default:
 		status = core.NewStatusError(http.StatusBadRequest, errors.New(fmt.Sprintf("invalid version: [%v]", r.Header.Get(core.XVersion))))
 	}
@@ -60,9 +60,9 @@ func logPut[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (resp *http.Res
 
 	switch p.Version {
 	case ver1, "":
-		h2, status = log1.Put(r, p.Path, nil)
+		h2, status = log1.Put[core.Log](r, p.Path, nil)
 	case ver2:
-		h2, status = log2.Put(r, p.Path, nil)
+		h2, status = log2.Put[core.Log](r, p.Path, nil)
 	default:
 		status = core.NewStatusError(http.StatusBadRequest, errors.New(fmt.Sprintf("invalid version: [%v]", r.Header.Get(core.XVersion))))
 	}

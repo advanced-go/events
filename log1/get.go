@@ -17,19 +17,18 @@ func testOverride(ctx context.Context, resource string) context.Context {
 	if ex != nil {
 		return ctx
 	}
-	rsc := testrsc.LOG1EgressEntryTest
+	rsc := testrsc.LOG1EgressEntry
 	if resource == IngressResource {
-		rsc = testrsc.LOG1IngressEntryTest
+		rsc = testrsc.LOG1IngressEntry
 	}
 	return core.NewExchangeOverrideContext(ctx, core.NewExchangeOverride("", rsc, ""))
 }
 
-func get[E core.ErrorHandler, T pgxsql.Scanner[T]](ctx context.Context, h http.Header, resource string, values url.Values) (entries []T, h2 http.Header, status *core.Status) {
+func get[E core.ErrorHandler, T pgxsql.Scanner[T]](ctx context.Context, h http.Header, resource string, values url.Values) (entries []T, status *core.Status) {
 	var e E
 
-	h2 = httpx.SetHeader(h2, httpx.ContentType, httpx.ContentTypeText)
 	if values == nil {
-		return nil, h2, core.StatusNotFound()
+		return nil, core.StatusNotFound()
 	}
 	// Testing only
 	ctx = testOverride(ctx, resource)
@@ -39,15 +38,13 @@ func get[E core.ErrorHandler, T pgxsql.Scanner[T]](ctx context.Context, h http.H
 	entries, status = pgxsql.QueryT[T](ctx, h, common.AccessLogResource, common.AccessLogSelect, values)
 	if !status.OK() {
 		e.Handle(status.WithRequestId(h))
-		return nil, h2, status
+		return nil, status
 	}
 	if values != nil && len(values) > 0 {
 		entries = filter[T](entries, values)
 	}
 	if len(entries) == 0 {
 		status = core.NewStatus(http.StatusNotFound)
-	} else {
-		h2.Set(httpx.ContentType, httpx.ContentTypeJson)
 	}
 	return
 }
