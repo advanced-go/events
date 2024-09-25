@@ -4,16 +4,21 @@ const (
 	log1BasePath = "file:///f:/files/log1"
 
 	LOG1EgressEntry      = log1BasePath + "/egress-entry.json"
-	LOG1EgressEntryTest  = log1BasePath + "/egress-entry-test.json"
+	LOG1EgressEntryTest  = log1BasePath + "/egress-entry.json"
 	LOG1IngressEntry     = log1BasePath + "/ingress-entry.json"
-	LOG1IngressEntryTest = log1BasePath + "/ingress-entry-test.json"
+	LOG1IngressEntryTest = log1BasePath + "/ingress-entry.json"
 
-	LOG1GetReq  = log1BasePath + "/get-req.txt"
-	LOG1GetResp = log1BasePath + "/get-resp.txt"
+	LOG1GetReq  = log1BasePath + "/egress-get-all-req.txt"
+	LOG1GetResp = log1BasePath + "/egress-get-all-resp.txt"
 
-	log2BasePath         = "file:///f:/files/log2"
-	LOG2EgressEntryTest  = log2BasePath + "/egress-entry-test.json"
-	LOG2IngressEntryTest = log2BasePath + "/ingress-entry-test.json"
+	log2BasePath          = "file:///f:/files/log2"
+	LOG2IngressEntry      = log2BasePath + "/ingress-entry.json"
+	LOG2IngressGetAllReq  = log2BasePath + "/ingress-get-all-req.txt"
+	LOG2IngressGetAllResp = log2BasePath + "/ingress-get-all-resp.txt"
+
+	LOG2EgressEntry      = log2BasePath + "/egress-entry.json"
+	LOG2EgressGetAllReq  = log2BasePath + "/egress-get-all-req.txt"
+	LOG2EgressGetAllResp = log2BasePath + "/egress-get-all-resp.txt"
 )
 
 const (
@@ -34,8 +39,8 @@ const (
 	TS1IngressEntry     = ts1BasePath + "/ingress-entry.json"
 	TS1IngressEntryTest = ts1BasePath + "/ingress-percentile-threshold-test.json"
 
-	TS1GetReq  = ts1BasePath + "/get-req.txt"
-	TS1GetResp = ts1BasePath + "/get-resp.txt"
+	TS1GetReq  = ts1BasePath + "/egress-get-all-req.txt"
+	TS1GetResp = ts1BasePath + "/egress-get-all-resp.txt"
 
 	ts2BasePath         = "file:///f:/files/timeseries2"
 	TS2IngressEntry     = ts2BasePath + "/ingress-entry.json"

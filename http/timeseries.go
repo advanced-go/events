@@ -38,7 +38,7 @@ func timeseriesGet[E core.ErrorHandler](r *http.Request, p *uri.Parsed) (resp *h
 
 	switch p.Version {
 	case ver1, "":
-		entries, h2, status = timeseries1.Get(r, p.Path)
+		entries, h2, status = timeseries1.Get[core.Log](r, p.Path)
 	case ver2:
 		//entries, h2, status = timeseries2.Get(r, p.Path)
 	default:

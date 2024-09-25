@@ -17,9 +17,9 @@ func testOverride(ctx context.Context, resource string) context.Context {
 	if ex != nil {
 		return ctx
 	}
-	rsc := testrsc.LOG2EgressEntryTest
+	rsc := testrsc.LOG2EgressEntry
 	if resource == IngressResource {
-		rsc = testrsc.LOG2IngressEntryTest
+		rsc = testrsc.LOG2IngressEntry
 	}
 	return core.NewExchangeOverrideContext(ctx, core.NewExchangeOverride("", rsc, ""))
 }
