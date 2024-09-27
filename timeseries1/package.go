@@ -11,12 +11,10 @@ import (
 )
 
 const (
-	PkgPath            = "github/advanced-go/events/timeseries1"
-	Route              = "timeseries"
-	percentileResource = "percentile"
-	statusCodeResource = "status-code"
-	percentilePath     = "timeseries/percentile-threshold"
-	statusCodePath     = "timeseries/status-code-threshold"
+	PkgPath        = "github/advanced-go/events/timeseries1"
+	Route          = "timeseries"
+	percentilePath = "timeseries/percentile-threshold"
+	statusCodePath = "timeseries/status-code-threshold"
 )
 
 type TimeUTC time.Time

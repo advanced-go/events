@@ -13,6 +13,11 @@ import (
 	"strings"
 )
 
+const (
+	percentileResource = "percentile"
+	statusCodeResource = "status-code"
+)
+
 func testOverride(ctx context.Context, resource string) context.Context {
 	ex := core.ExchangeOverrideFromContext(ctx)
 	if ex != nil {

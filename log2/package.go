@@ -11,8 +11,6 @@ import (
 const (
 	PkgPath          = "github/advanced-go/events/log2"
 	Route            = "log-events"
-	egressResource   = "egress"
-	ingressResource  = "ingress"
 	ingressEntryPath = "log/ingress/entry"
 	egressEntryPath  = "log/egress/entry"
 )
