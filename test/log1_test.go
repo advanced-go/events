@@ -19,10 +19,9 @@ func TestLog1(t *testing.T) {
 		resp   *http.Response
 		status *core.Status
 	}{
-		//{name: "read-request-error", req: readRequest("", t), resp: readResponse(testrsc.TS1GetRespURL, t), status: core.StatusOK()},
-		//{name: "ingress-get-all", req: httpt.NewRequestTest(testrsc.LOG1IngressGetAllReq, t), resp: httpt.NewResponseTest(testrsc.LOG1IngressGetAllResp, t), status: core.StatusOK()},
-		//{name: "egress-get-all", req: httpt.NewRequestTest(testrsc.LOG1EgressGetAllReq, t), resp: httpt.NewResponseTest(testrsc.LOG1EgressGetAllResp, t), status: core.StatusOK()},
-		//{name: "egress-get-not-found", req: httpt.NewRequestTest(testrsc.LOG1EgressGetNotFoundReq, t), resp: httpt.NewResponseTest(testrsc.NotFoundResp, t), status: nil},
+		{name: "ingress-get-all", req: httpt.NewRequestTest(testrsc.LOG1IngressGetAllReq, t), resp: httpt.NewResponseTest(testrsc.LOG1IngressGetAllResp, t), status: core.StatusOK()},
+		{name: "egress-get-all", req: httpt.NewRequestTest(testrsc.LOG1EgressGetAllReq, t), resp: httpt.NewResponseTest(testrsc.LOG1EgressGetAllResp, t), status: core.StatusOK()},
+		{name: "egress-get-not-found", req: httpt.NewRequestTest(testrsc.LOG1EgressGetNotFoundReq, t), resp: httpt.NewResponseTest(testrsc.NotFoundResp, t), status: nil},
 		{name: "ingress-put-ok", req: httpt.NewRequestTest(testrsc.LOG1IngressPutReq, t), resp: httpt.NewResponseTest(testrsc.OKResp, t), status: nil},
 
 		//

@@ -19,9 +19,10 @@ func TestLog2(t *testing.T) {
 		resp   *http.Response
 		status *core.Status
 	}{
-		//{name: "read-request-error", req: readRequest("", t), resp: readResponse(testrsc.TS1GetRespURL, t), status: core.StatusOK()},
 		{name: "ingress-get-all", req: httpt.NewRequestTest(testrsc.LOG2IngressGetAllReq, t), resp: httpt.NewResponseTest(testrsc.LOG2IngressGetAllResp, t), status: core.StatusOK()},
 		{name: "egress-get-all", req: httpt.NewRequestTest(testrsc.LOG2EgressGetAllReq, t), resp: httpt.NewResponseTest(testrsc.LOG2EgressGetAllResp, t), status: core.StatusOK()},
+
+		//
 	}
 	for _, tt := range tests {
 		success := true

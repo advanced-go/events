@@ -35,8 +35,8 @@ const (
 const (
 	ts1BasePath = "file:///f:/files/timeseries1"
 
-	TS1PercentileThresholdTest = ts1BasePath + "/percentile-threshold-test.json"
-	TS1StatusCodeThresholdTest = ts1BasePath + "/stat-code-threshold-test.json"
+	TS1PercentileThresholdTest = ts1BasePath + "/percentile-threshold.json"
+	TS1StatusCodeThresholdTest = ts1BasePath + "/stat-code-threshold.json"
 
 	// test
 
@@ -46,18 +46,18 @@ const (
 	ts1BasePath = "file:///f:/files/timeseries1"
 
 	TS1EgressEntry      = ts1BasePath + "/egress-entry.json"
-	TS1EgressEntryTest  = ts1BasePath + "/egress-percentile-threshold-test.json"
+	TS1EgressEntryTest  = ts1BasePath + "/egress-percentile-threshold.json"
 	TS1IngressEntry     = ts1BasePath + "/ingress-entry.json"
-	TS1IngressEntryTest = ts1BasePath + "/ingress-percentile-threshold-test.json"
+	TS1IngressEntryTest = ts1BasePath + "/ingress-percentile-threshold.json"
 
 	TS1GetReq  = ts1BasePath + "/egress-get-all-req.txt"
 	TS1GetResp = ts1BasePath + "/egress-get-all-resp.txt"
 
 	ts2BasePath         = "file:///f:/files/timeseries2"
 	TS2IngressEntry     = ts2BasePath + "/ingress-entry.json"
-	TS2IngressEntryTest = ts2BasePath + "/ingress-percentile-threshold-test.json"
+	TS2IngressEntryTest = ts2BasePath + "/ingress-percentile-threshold.json"
 	TS2EgressEntry      = ts2BasePath + "/egress-entry.json"
-	TS2EgressEntryTest  = ts2BasePath + "/percentile-threshold-test.json"
+	TS2EgressEntryTest  = ts2BasePath + "/percentile-threshold.json"
 
 
 */

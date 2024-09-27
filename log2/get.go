@@ -10,6 +10,7 @@ import (
 	"github.com/advanced-go/stdlib/httpx"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 func testOverride(ctx context.Context, resource string) context.Context {
@@ -18,7 +19,7 @@ func testOverride(ctx context.Context, resource string) context.Context {
 		return ctx
 	}
 	rsc := testrsc.LOG2EgressEntry
-	if resource == IngressResource {
+	if strings.Contains(resource, ingressResource) {
 		rsc = testrsc.LOG2IngressEntry
 	}
 	return core.NewExchangeOverrideContext(ctx, core.NewExchangeOverride("", rsc, ""))

@@ -11,12 +11,12 @@ func ExampleGetIngress_Test() {
 	//ctx := core.NewExchangeOverrideContext(nil, core.NewExchangeOverride("", testrsc.LOG1IngressEntry, ""))
 
 	values.Add(core.RegionKey, "*")
-	entries, status := get[core.Output, Entry](nil, nil, IngressResource, values)
+	entries, status := get[core.Output, Entry](nil, nil, ingressResource, values)
 	fmt.Printf("test: get() -> [status:%v] [entries:%v]\n", status, len(entries))
 
 	values.Set(core.RegionKey, "us-west")
 	values.Add(core.SubZoneKey, "dc1")
-	entries, status = get[core.Output, Entry](nil, nil, IngressResource, values)
+	entries, status = get[core.Output, Entry](nil, nil, ingressResource, values)
 	fmt.Printf("test: get() -> [status:%v] [entries:%v]\n", status, len(entries))
 
 	//Output:
@@ -30,12 +30,12 @@ func ExampleGetEgress_Test() {
 	//ctx := core.NewExchangeOverrideContext(nil, core.NewExchangeOverride("", testrsc.LOG1EgressEntry, ""))
 
 	values.Add(core.RegionKey, "*")
-	entries, status := get[core.Output, Entry](nil, nil, EgressResource, values)
+	entries, status := get[core.Output, Entry](nil, nil, egressResource, values)
 	fmt.Printf("test: get() -> [status:%v] [entries:%v]\n", status, len(entries))
 
 	values.Set(core.RegionKey, "us-west")
 	values.Add(core.SubZoneKey, "dc1")
-	entries, status = get[core.Output, Entry](nil, nil, EgressResource, values)
+	entries, status = get[core.Output, Entry](nil, nil, egressResource, values)
 	fmt.Printf("test: get() -> [status:%v] [entries:%v]\n", status, len(entries))
 
 	//Output:

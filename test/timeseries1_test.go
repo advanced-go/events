@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func TestExchange1(t *testing.T) {
+func TestTimeseries1(t *testing.T) {
 	tests := []struct {
 		name   string
 		req    *http.Request

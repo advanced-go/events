@@ -6,14 +6,15 @@ import (
 	"github.com/advanced-go/stdlib/httpx"
 	json2 "github.com/advanced-go/stdlib/json"
 	"net/http"
-	"strings"
 )
 
 const (
-	PkgPath         = "github/advanced-go/events/log1"
-	Route           = "log-events"
-	EgressResource  = "egress"
-	IngressResource = "ingress"
+	PkgPath          = "github/advanced-go/events/log1"
+	Route            = "log-events"
+	egressResource   = "egress"
+	ingressResource  = "ingress"
+	ingressEntryPath = "log/ingress/entry"
+	egressEntryPath  = "log/egress/entry"
 )
 
 // Get - log1 GET
@@ -26,8 +27,9 @@ func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header
 		e.Handle(status)
 		return nil, nil, status
 	}
-	if strings.Contains(path, EgressResource) {
-		t, status := get[E, Entry](r.Context(), core.AddRequestId(r.Header), EgressResource, r.URL.Query())
+	switch path {
+	case ingressEntryPath, egressEntryPath:
+		t, status := get[E, Entry](r.Context(), core.AddRequestId(r.Header), path, r.URL.Query())
 		if !status.OK() {
 			return nil, h2, status
 		}
@@ -37,22 +39,12 @@ func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header
 			return nil, h2, status1
 		}
 		return buf, httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeJson), status1
+	default:
+		status := core.NewStatusError(http.StatusBadRequest, errors.New("error: resource is not ingress or egress"))
+		e.Handle(status)
+		return nil, h2, status
 	}
-	if strings.Contains(path, IngressResource) {
-		t, status := get[E, Entry](r.Context(), core.AddRequestId(r.Header), IngressResource, r.URL.Query())
-		if !status.OK() {
-			return nil, h2, status
-		}
-		buf, status1 := json2.Marshal(t)
-		if !status1.OK() {
-			e.Handle(status1)
-			return nil, h2, status1
-		}
-		return buf, httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeJson), status1
-	}
-	status := core.NewStatusError(http.StatusBadRequest, errors.New("error: resource is not ingress or egress"))
-	e.Handle(status)
-	return nil, h2, status
+
 }
 
 // Put - log1 PUT, with optional content override
