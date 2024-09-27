@@ -20,16 +20,24 @@ const (
 type TimeUTC time.Time
 
 // Get - timeseries1 GET
-func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header, *core.Status) {
+func Get(r *http.Request, path string) ([]byte, http.Header, *core.Status) {
+	if r == nil {
+		status := core.NewStatusError(core.StatusInvalidArgument, errors.New("error: http.Request is"))
+		return nil, nil, status
+	}
+	if r.Header.Get(core.XFrom) == "" {
+		return httpGet[core.Log](r, path)
+	}
+	return httpGet[core.Output](r, path)
+}
+
+func httpGet[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header, *core.Status) {
 	var e E
 
-	if r == nil {
-		return nil, nil, core.NewStatusError(core.StatusInvalidArgument, errors.New("error: http.Request is"))
-	}
 	h2 := httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeText)
 	switch path {
 	case percentilePath:
-		t, status := get[core.Log, PercentileThreshold](r.Context(), core.AddRequestId(r.Header), percentileResource, r.URL.Query())
+		t, status := get[E, PercentileThreshold](r.Context(), core.AddRequestId(r.Header), percentileResource, r.URL.Query())
 		if !status.OK() {
 			return nil, h2, status
 		}
@@ -40,7 +48,7 @@ func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header
 		}
 		return buf, httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeJson), status1
 	case statusCodePath:
-		t, status := get[core.Log, StatusCodeThreshold](r.Context(), core.AddRequestId(r.Header), statusCodeResource, r.URL.Query())
+		t, status := get[E, StatusCodeThreshold](r.Context(), core.AddRequestId(r.Header), statusCodeResource, r.URL.Query())
 		if !status.OK() {
 			return nil, h2, status
 		}
@@ -52,7 +60,6 @@ func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header
 		return buf, httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeJson), status1
 	default:
 		status := core.NewStatusError(http.StatusBadRequest, errors.New("error: resource is not ingress or egress"))
-		e.Handle(status)
 		return nil, nil, status
 	}
 }

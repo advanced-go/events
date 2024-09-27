@@ -1,11 +1,13 @@
 package log2
 
 import (
+	"context"
 	"errors"
 	"github.com/advanced-go/stdlib/core"
 	"github.com/advanced-go/stdlib/httpx"
 	json2 "github.com/advanced-go/stdlib/json"
 	"net/http"
+	"net/url"
 )
 
 const (
@@ -71,4 +73,12 @@ func httpPut[E core.ErrorHandler](r *http.Request, path string, body []Entry) (h
 		body = content
 	}
 	return put[E](r.Context(), core.AddRequestId(r.Header), body)
+}
+
+func IngressQuery(ctx context.Context, h http.Header, values url.Values) ([]Entry, *core.Status) {
+	return get[core.Log, Entry](ctx, h, ingressEntryPath, values)
+}
+
+func EgressQuery(ctx context.Context, h http.Header, values url.Values) ([]Entry, *core.Status) {
+	return get[core.Log, Entry](ctx, h, egressEntryPath, values)
 }

@@ -24,17 +24,17 @@ func Exchange(r *http.Request) (*http.Response, *core.Status) {
 
 	if r == nil {
 		status := core.NewStatusError(http.StatusBadRequest, errors.New("request is nil"))
-		return httpx.NewResponse[core.Log](status.HttpCode(), h2, status.Err)
+		return httpx.NewResponse(status.HttpCode(), h2, status.Err)
 	}
 	p, status := httpx.ValidateURL(r.URL, module.Authority)
 	if !status.OK() {
-		resp1, _ := httpx.NewResponse[core.Log](status.HttpCode(), h2, status.Err)
+		resp1, _ := httpx.NewResponse(status.HttpCode(), h2, status.Err)
 		return resp1, status
 	}
 	core.AddRequestId(r.Header)
 	switch p.Resource {
 	case timeseries:
-		resp, status1 := timeseriesExchange[core.Log](r, p)
+		resp, status1 := timeseriesExchange(r, p)
 		resp.Header.Add(core.XRoute, timeseries1.Route)
 		return resp, status1
 	case log:
@@ -51,6 +51,6 @@ func Exchange(r *http.Request) (*http.Response, *core.Status) {
 		return httpx.NewHealthResponseOK(), core.StatusOK()
 	default:
 		status = core.NewStatusError(http.StatusNotFound, errors.New(fmt.Sprintf("error invalid URI, testresource not found: [%v]", p.Resource)))
-		return httpx.NewResponse[core.Log](status.HttpCode(), h2, status.Err)
+		return httpx.NewResponse(status.HttpCode(), h2, status.Err)
 	}
 }
