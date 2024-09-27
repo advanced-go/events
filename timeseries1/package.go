@@ -7,15 +7,16 @@ import (
 	"github.com/advanced-go/stdlib/httpx"
 	json2 "github.com/advanced-go/stdlib/json"
 	"net/http"
-	"strings"
 	"time"
 )
 
 const (
 	PkgPath            = "github/advanced-go/events/timeseries1"
 	Route              = "timeseries"
-	PercentileResource = "percentile"
-	StatusCodeResource = "status-code"
+	percentileResource = "percentile"
+	statusCodeResource = "status-code"
+	percentilePath     = "timeseries/percentile-threshold"
+	statusCodePath     = "timeseries/status-code-threshold"
 )
 
 type TimeUTC time.Time
@@ -23,12 +24,14 @@ type TimeUTC time.Time
 // Get - timeseries1 GET
 func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header, *core.Status) {
 	var e E
+
 	if r == nil {
 		return nil, nil, core.NewStatusError(core.StatusInvalidArgument, errors.New("error: http.Request is"))
 	}
 	h2 := httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeText)
-	if strings.Contains(path, PercentileResource) {
-		t, status := get[core.Log, PercentileThreshold](r.Context(), core.AddRequestId(r.Header), PercentileResource, r.URL.Query())
+	switch path {
+	case percentilePath:
+		t, status := get[core.Log, PercentileThreshold](r.Context(), core.AddRequestId(r.Header), percentileResource, r.URL.Query())
 		if !status.OK() {
 			return nil, h2, status
 		}
@@ -38,9 +41,8 @@ func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header
 			return nil, h2, status1
 		}
 		return buf, httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeJson), status1
-	}
-	if strings.Contains(path, StatusCodeResource) {
-		t, status := get[core.Log, StatusCodeThreshold](r.Context(), core.AddRequestId(r.Header), StatusCodeResource, r.URL.Query())
+	case statusCodePath:
+		t, status := get[core.Log, StatusCodeThreshold](r.Context(), core.AddRequestId(r.Header), statusCodeResource, r.URL.Query())
 		if !status.OK() {
 			return nil, h2, status
 		}
@@ -50,10 +52,11 @@ func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header
 			return nil, h2, status1
 		}
 		return buf, httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeJson), status1
+	default:
+		status := core.NewStatusError(http.StatusBadRequest, errors.New("error: resource is not ingress or egress"))
+		e.Handle(status)
+		return nil, nil, status
 	}
-	status := core.NewStatusError(http.StatusBadRequest, errors.New("error: resource is not ingress or egress"))
-	e.Handle(status)
-	return nil, nil, status
 }
 
 // PercentileThresholdSLO - ingress host, pre-calculated percentile thresholds

@@ -2,7 +2,8 @@ package test
 
 import (
 	http2 "github.com/advanced-go/events/http"
-	"github.com/advanced-go/events/log1"
+	"github.com/advanced-go/events/testrsc"
+	"github.com/advanced-go/events/timeseries1"
 	"github.com/advanced-go/stdlib/core"
 	"github.com/advanced-go/stdlib/core/coretest"
 	httpt "github.com/advanced-go/stdlib/httpx/httpxtest"
@@ -11,15 +12,16 @@ import (
 	"testing"
 )
 
-func TestTimeseries1(t *testing.T) {
+func TestStatusCode1(t *testing.T) {
 	tests := []struct {
 		name   string
 		req    *http.Request
 		resp   *http.Response
 		status *core.Status
 	}{
-		//{name: "read-request-error", req: readRequest("", t), resp: readResponse(testrsc.TS1GetRespURL, t), status: core.StatusOK()},
-		//{name: "get-entry", req: httpt.NewRequestTest(testrsc.TS1GetReq, t), resp: httpt.NewResponseTest(testrsc.TS1GetResp, t), status: core.StatusOK()},
+		{name: "status-code-get-all", req: httpt.NewRequestTest(testrsc.TS1StatusCodeGetAllReq, t), resp: httpt.NewResponseTest(testrsc.TS1StatusCodeGetAllResp, t), status: nil},
+
+		//
 	}
 	for _, tt := range tests {
 		success := true
@@ -33,10 +35,10 @@ func TestTimeseries1(t *testing.T) {
 				t.Errorf("Exchange() got status code : %v, want status code : %v", resp.StatusCode, tt.resp.StatusCode)
 				success = false
 			}
-			var gotT []log1.Entry
-			var wantT []log1.Entry
+			var gotT []timeseries1.StatusCodeThreshold
+			var wantT []timeseries1.StatusCodeThreshold
 			if success {
-				gotT, wantT, success = httpt.Deserialize[coretest.Output, []log1.Entry](resp.Body, tt.resp.Body, t)
+				gotT, wantT, success = httpt.Deserialize[coretest.Output, []timeseries1.StatusCodeThreshold](resp.Body, tt.resp.Body, t)
 			}
 			if success {
 				if !reflect.DeepEqual(gotT, wantT) {

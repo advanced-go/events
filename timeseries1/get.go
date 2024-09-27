@@ -10,6 +10,7 @@ import (
 	"github.com/advanced-go/stdlib/httpx"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 func testOverride(ctx context.Context, resource string) context.Context {
@@ -17,9 +18,9 @@ func testOverride(ctx context.Context, resource string) context.Context {
 	if ex != nil {
 		return ctx
 	}
-	rsc := testrsc.TS1PercentileThresholdTest
-	if resource == StatusCodeResource {
-		rsc = testrsc.TS1StatusCodeThresholdTest
+	rsc := testrsc.TS1PercentileThreshold
+	if strings.Contains(resource, statusCodeResource) {
+		rsc = testrsc.TS1StatusCodeThreshold
 	}
 	return core.NewExchangeOverrideContext(ctx, core.NewExchangeOverride("", rsc, ""))
 }

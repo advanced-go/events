@@ -11,12 +11,12 @@ func ExampleGetPercentile_Test() {
 	//ctx := core.NewExchangeOverrideContext(nil, core.NewExchangeOverride("", testrsc.TS1PercentileThresholdTest, ""))
 
 	values.Add(core.RegionKey, "*")
-	entries, status := get[core.Output, PercentileThreshold](nil, nil, PercentileResource, values)
+	entries, status := get[core.Output, PercentileThreshold](nil, nil, percentileResource, values)
 	fmt.Printf("test: get() -> [status:%v] [entries:%v]\n", status, len(entries))
 
 	values.Set(core.RegionKey, "us-west")
 	values.Add(core.SubZoneKey, "dc1")
-	entries, status = get[core.Output, PercentileThreshold](nil, nil, PercentileResource, values)
+	entries, status = get[core.Output, PercentileThreshold](nil, nil, percentileResource, values)
 	fmt.Printf("test: get() -> [status:%v] [entries:%v]\n", status, len(entries))
 
 	//Output:
@@ -30,12 +30,12 @@ func ExampleGetStatusCode_Test() {
 	//ctx := core.NewExchangeOverrideContext(nil, core.NewExchangeOverride("", testrsc.TS1StatusCodeThresholdTest, ""))
 
 	values.Add(core.RegionKey, "*")
-	entries, status := get[core.Output, PercentileThreshold](nil, nil, StatusCodeResource, values)
+	entries, status := get[core.Output, PercentileThreshold](nil, nil, statusCodeResource, values)
 	fmt.Printf("test: get() -> [status:%v] [entries:%v]\n", status, len(entries))
 
 	values.Set(core.RegionKey, "us-west")
 	values.Add(core.SubZoneKey, "dc1")
-	entries, status = get[core.Output, PercentileThreshold](nil, nil, StatusCodeResource, values)
+	entries, status = get[core.Output, PercentileThreshold](nil, nil, statusCodeResource, values)
 	fmt.Printf("test: get() -> [status:%v] [entries:%v]\n", status, len(entries))
 
 	//Output:

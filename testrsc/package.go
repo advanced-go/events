@@ -35,8 +35,13 @@ const (
 const (
 	ts1BasePath = "file:///f:/files/timeseries1"
 
-	TS1PercentileThresholdTest = ts1BasePath + "/percentile-threshold.json"
-	TS1StatusCodeThresholdTest = ts1BasePath + "/stat-code-threshold.json"
+	TS1PercentileThreshold  = ts1BasePath + "/percentile-threshold.json"
+	TS1PercentileGetAllReq  = ts1BasePath + "/percentile-get-all-req.txt"
+	TS1PercentileGetAllResp = ts1BasePath + "/percentile-get-all-resp.txt"
+
+	TS1StatusCodeThreshold  = ts1BasePath + "/stat-code-threshold.json"
+	TS1StatusCodeGetAllReq  = ts1BasePath + "/stat-code-get-all-req.txt"
+	TS1StatusCodeGetAllResp = ts1BasePath + "/stat-code-get-all-resp.txt"
 
 	// test
 
