@@ -16,18 +16,24 @@ const (
 )
 
 // Get - log2 GET
-func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header, *core.Status) {
-	var e E
-
+func Get(r *http.Request, path string) ([]byte, http.Header, *core.Status) {
 	if r == nil {
 		status := core.NewStatusError(core.StatusInvalidArgument, errors.New("error: http.Request is"))
-		e.Handle(status)
 		return nil, nil, status
 	}
+	if r.Header.Get(core.XFrom) == "" {
+		return httpGet[core.Log](r, path)
+	}
+	return httpGet[core.Output](r, path)
+}
+
+func httpGet[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header, *core.Status) {
+	var e E
+
 	h2 := httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeText)
 	switch path {
 	case ingressEntryPath, egressEntryPath:
-		t, status := get[E, Entry](r.Context(), core.AddRequestId(r.Header), path, r.URL.Query())
+		t, status := get[core.Log, Entry](r.Context(), core.AddRequestId(r.Header), path, r.URL.Query())
 		if !status.OK() {
 			return nil, h2, status
 		}
@@ -43,14 +49,19 @@ func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header
 }
 
 // Put - log2 PUT, with optional content override
-func Put[E core.ErrorHandler](r *http.Request, path string, body []Entry) (http.Header, *core.Status) {
+func Put(r *http.Request, path string, body []Entry) (http.Header, *core.Status) {
+	if r == nil {
+		return nil, core.NewStatusError(core.StatusInvalidArgument, errors.New("error: request is nil"))
+	}
+	if r.Header.Get(core.XFrom) == "" {
+		return httpPut[core.Log](r, path, body)
+	}
+	return httpPut[core.Output](r, path, body)
+}
+
+func httpPut[E core.ErrorHandler](r *http.Request, path string, body []Entry) (http.Header, *core.Status) {
 	var e E
 
-	if r == nil {
-		status := core.NewStatusError(core.StatusInvalidArgument, errors.New("error: request is nil"))
-		e.Handle(status)
-		return nil, status
-	}
 	if body == nil {
 		content, status := json2.New[[]Entry](r.Body, r.Header)
 		if !status.OK() {

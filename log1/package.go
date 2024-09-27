@@ -16,15 +16,20 @@ const (
 )
 
 // Get - log1 GET
-func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header, *core.Status) {
-	var e E
-
-	h2 := httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeText)
+func Get(r *http.Request, path string) ([]byte, http.Header, *core.Status) {
 	if r == nil {
 		status := core.NewStatusError(core.StatusInvalidArgument, errors.New("error: http.Request is"))
-		e.Handle(status)
 		return nil, nil, status
 	}
+	if r.Header.Get(core.XFrom) == "" {
+		return httpGet[core.Log](r, path)
+	}
+	return httpGet[core.Output](r, path)
+}
+
+func httpGet[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header, *core.Status) {
+	var e E
+	h2 := httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeText)
 	switch path {
 	case ingressEntryPath, egressEntryPath:
 		t, status := get[E, Entry](r.Context(), core.AddRequestId(r.Header), path, r.URL.Query())
@@ -39,19 +44,26 @@ func Get[E core.ErrorHandler](r *http.Request, path string) ([]byte, http.Header
 		return buf, httpx.SetHeader(nil, httpx.ContentType, httpx.ContentTypeJson), status1
 	default:
 		status := core.NewStatusError(http.StatusBadRequest, errors.New("error: resource is not ingress or egress"))
-		e.Handle(status)
+		//e.Handle(status)
 		return nil, h2, status
 	}
-
 }
 
 // Put - log1 PUT, with optional content override
-func Put[E core.ErrorHandler](r *http.Request, path string, body []Entry) (http.Header, *core.Status) {
-	var e E
-
+func Put(r *http.Request, path string, body []Entry) (http.Header, *core.Status) {
 	if r == nil {
 		return nil, core.NewStatusError(core.StatusInvalidArgument, errors.New("error: request is nil"))
 	}
+	if r.Header.Get(core.XFrom) == "" {
+		return httpPut[core.Log](r, path, body)
+	}
+	return httpPut[core.Output](r, path, body)
+}
+
+// httpPut - log1 PUT, with optional content override
+func httpPut[E core.ErrorHandler](r *http.Request, path string, body []Entry) (http.Header, *core.Status) {
+	var e E
+
 	if body == nil {
 		content, status := json2.New[[]Entry](r.Body, r.Header)
 		if !status.OK() {

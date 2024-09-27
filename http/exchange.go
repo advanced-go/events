@@ -38,7 +38,7 @@ func Exchange(r *http.Request) (*http.Response, *core.Status) {
 		resp.Header.Add(core.XRoute, timeseries1.Route)
 		return resp, status1
 	case log:
-		resp, status1 := logExchange[core.Log](r, p)
+		resp, status1 := logExchange(r, p)
 		resp.Header.Add(core.XRoute, log1.Route)
 		return resp, status1
 	case core.VersionPath:
