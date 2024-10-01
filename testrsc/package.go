@@ -1,6 +1,9 @@
 package testrsc
 
 const (
+	PkgPath = "github/advanced-go/events/testrsc"
+)
+const (
 	commonBasePath = "file:///f:/files/common"
 
 	NotFoundResp            = commonBasePath + "/not-found-resp.txt"
@@ -8,6 +11,7 @@ const (
 	GatewayTimeoutResp      = commonBasePath + "/gateway-timeout-resp.txt"
 	InternalServerErrorResp = commonBasePath + "/interanal-server-error-resp.txt"
 )
+
 const (
 	log1BasePath = "file:///f:/files/log1"
 
