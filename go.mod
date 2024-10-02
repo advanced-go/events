@@ -3,7 +3,7 @@ module github.com/advanced-go/events
 go 1.21.4
 
 require (
-	github.com/advanced-go/postgresql v0.0.0-20241001235215-8e05f17636f8
+	github.com/advanced-go/postgresql v0.0.0-20241002002235-80c0e29ab59f
 	github.com/advanced-go/stdlib v0.0.0-20240927160719-6dcdac5cbe4d
 )
 
