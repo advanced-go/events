@@ -1,6 +1,6 @@
 PUT /github/advanced-go/events:v1/log/ingress/entry HTTP/1.1
 Content-Type: application/json
-X-Content-Location-Exchange: status->file:///f:/files/common/status-200.json
+X-Exchange-Resolver: status->file:///f:/files/common/status-200.json
 
 
 [
