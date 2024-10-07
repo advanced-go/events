@@ -6,9 +6,9 @@ const (
 const (
 	commonBasePath = "file:///f:/files/common"
 
-	NotFoundResp            = commonBasePath + "/not-found-resp.txt"
-	OKResp                  = commonBasePath + "/ok-resp.txt"
-	GatewayTimeoutResp      = commonBasePath + "/gateway-timeout-resp.txt"
+	NotFoundResp            = commonBasePath + "/http-404-resp.txt"
+	OKResp                  = commonBasePath + "/http-200-resp.txt"
+	GatewayTimeoutResp      = commonBasePath + "/http-504-resp.txt"
 	InternalServerErrorResp = commonBasePath + "/interanal-server-error-resp.txt"
 )
 

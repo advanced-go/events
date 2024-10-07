@@ -6,8 +6,6 @@ import (
 	"github.com/advanced-go/stdlib/core"
 	"github.com/advanced-go/stdlib/json"
 	"net/http"
-	"reflect"
-	"testing"
 )
 
 func ExampleExchange_Invalid() {
@@ -18,19 +16,19 @@ func ExampleExchange_Invalid() {
 	resp, status = Exchange(req)
 	fmt.Printf("test: Exchange(nil) -> [status:%v] [status-code:%v]\n", status, resp.StatusCode)
 
-	req, _ = http.NewRequest("", "http://www.google.com/github/advanced-go/access", nil)
+	req, _ = http.NewRequest("", "http://www.google.com/github/advanced-go/events", nil)
 	resp, status = Exchange(req)
 	fmt.Printf("test: Exchange(nil) -> [status:%v] [status-code:%v]\n", status, resp.StatusCode)
 
 	//Output:
 	//test: Exchange(nil) -> [status:Bad Request] [status-code:400]
-	//test: Exchange(nil) -> [status:Bad Request [error: invalid URI, authority does not match: "/search" "github/advanced-go/access"]] [status-code:400]
-	//test: Exchange(nil) -> [status:Bad Request [error: invalid URI, path only contains an authority: "/github/advanced-go/access"]] [status-code:400]
+	//test: Exchange(nil) -> [status:Bad Request [error: invalid URI, authority does not match: "/search" "github/advanced-go/events"]] [status-code:400]
+	//test: Exchange(nil) -> [status:Bad Request [error: invalid URI, path only contains an authority: "/github/advanced-go/events"]] [status-code:400]
 
 }
 
 func ExampleExchange_Authority() {
-	r, _ := http.NewRequest("", "http://localhost:8083/github/advanced-go/access:authority", nil)
+	r, _ := http.NewRequest("", "http://localhost:8083/github/advanced-go/events:authority", nil)
 	resp, status := Exchange(r)
 	if status.OK() {
 		//buf, _ := io.ReadAll(resp.Body, nil)
@@ -38,7 +36,7 @@ func ExampleExchange_Authority() {
 	}
 
 	//Output:
-	//test: Exchange(r) -> [status:OK] [status-code:200] [github/advanced-go/access]
+	//test: Exchange(r) -> [status:OK] [status-code:200] [github/advanced-go/events]
 
 }
 
@@ -57,29 +55,4 @@ func _ExampleExchange_Timeseries_dbClient_Error() {
 	//Output:
 	//test: Exchange() -> [status:Invalid Argument [error on PostgreSQL database query call: dbClient is nil]]
 
-}
-
-func TestExchange(t *testing.T) {
-	type args struct {
-		r *http.Request
-	}
-	tests := []struct {
-		name  string
-		args  args
-		want  *http.Response
-		want1 *core.Status
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, got1 := Exchange(tt.args.r)
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Exchange() got = %v, want %v", got, tt.want)
-			}
-			if !reflect.DeepEqual(got1, tt.want1) {
-				t.Errorf("Exchange() got1 = %v, want %v", got1, tt.want1)
-			}
-		})
-	}
 }
